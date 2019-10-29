@@ -25,6 +25,7 @@ npm start
 node_modules
 
 ---------------------------------------------------
+before I do "npm start", I need to run this code first: 
 mongod --dbpath=data --bind_ip 127.0.0.1
 
 and open another cmd:
