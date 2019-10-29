@@ -24,3 +24,17 @@ npm start
 .gitignore:
 node_modules
 
+---------------------------------------------------
+mongod --dbpath=data --bind_ip 127.0.0.1
+
+and open another cmd:
+
+mongo
+
+db
+use conFusion
+db
+db.help()
+
+db.dishes.insert({ name: "Uthappizza", description: "Test" });
+db.dishes.find().pretty();
