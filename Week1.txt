@@ -26,7 +26,7 @@ node_modules
 
 ---------------------------------------------------
 before I do "npm start", I need to run this code first: 
-mongod --dbpath=data --bind_ip 127.0.0.1
+c
 
 and open another cmd:
 
@@ -58,5 +58,8 @@ npm install multer@1.3.1 --save
 npm install cors@2.8.4 --save
 
 npm install passport-facebook-token@3.3.0 --save
+
+------------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-Angular6.git
 
 
