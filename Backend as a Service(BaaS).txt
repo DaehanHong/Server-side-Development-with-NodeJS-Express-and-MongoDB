@@ -1,0 +1,281 @@
+git clone https://github.com/jmuppala/conFusion-Angular6.git
+
+and go to conFusion-Angular6 folder
+
+npm install
+
+ng serve
+---------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-React.git
+
+and go to conFusion-React folder
+
+yarn install --ignore-engines
+
+yarn start
+---------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-Angular6-Firebase.git
+
+and go to conFusion-Angular6-Firebase folder
+
+npm install
+
+ng serve
+---------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-React-Firebase.git
+
+and go to conFusion-React-Firebase folder
+
+yarn install --ignore-engines
+
+yarn start
+----------------------------------------------------
+npm install -g loopback-cli@4.2.0
+
+lb conFusionServer-Loopback
+
+and go to conFusionServer-Loopback folder
+
+lb model
+
+npm start
+----------------------------------------------------
+lb datasource
+
+Data Source Name: MongoDB
+Connector: Mongo DB connector
+Host: localhost
+Port: 27017
+user & password: (empty)
+Database Name: conFusion
+
+lb model
+
+Model Name: Customer
+Data Source: MongoDB
+Model's Base Class: User
+REST API: Yes
+
+lb acl
+
+(all existing models)
+All methods and properties
+All (match all types)
+All users
+Explicitly deny access
+
+Again set up the next ACL 
+
+(all existing models)
+All methods and properties
+Read
+All users
+Explicitly grant access
+
+dishes
+A single method
+create
+Other users
+role: admin
+Explicitly grant access
+
+Customer
+A single method
+create
+All users
+Explicitly grant access
+----------------------------------------------------
+lb model
+
+Model Name: comments
+Data Source: MongoDB
+Model base: Persisted Model
+Expose REST API: Yes
+Model folder: common
+Properties:
+Name: rating
+Type: number
+Required: Yes
+Default: 5
+Name: comment
+Type: String
+Required: Yes
+Default: (empty)
+
+- Similarly add a favorites model with no properties.
+
+lb relation
+
+Model: dishes
+Relation type: has many
+Relationship with: comments
+Name: comments
+Foreign key: none
+Through model: no
+Relation nesting: No
+Disable relation included: No
+
+- Between comments and dishes
+Model: comments
+Relation type: belongs to
+Relationship with: dishes
+Name: dishes
+Foreign key: none
+Relation nesting: No
+Disable relation included: No
+
+- Between comments and Customer
+Model: comments
+Relation type: belongs to
+Relationship with: Customer
+Name: customer
+Foreign key: customerId
+Relation nesting: No
+Disable relation included: No
+
+- Between Customer and comments
+Model: Customer
+Relation type: has many
+Relationship with: comments
+Name: comments
+Foreign key: customerId
+Require through model: no
+Relation nesting: No
+Disable relation included: No
+
+- Between dishes and favorites
+Model: dishes
+Relation type: has many
+Relationship with: favorites
+Name: favorites
+Foreign key: none
+Through model: no
+Relation nesting: No
+Disable relation included: No
+
+- Between Customers and favorites
+Model: Customer
+Relation type: has many
+Relationship with: favorites
+Name: favorites
+Foreign key: customerId
+Require through model: no
+Relation nesting: No
+Disable relation included: No
+
+- Between favorites and dishes
+Model: favorites
+Relation type: belongs to
+Relationship with: dishes
+Name: dishes
+Foreign key: none
+Relation nesting: No
+Disable relation included: No
+
+- Between favorites and Customers
+Model: favorites
+Relation type: belongs to
+Relationship with: Customer
+Name: customer
+Foreign key: customerId
+Relation nesting: No
+Disable relation included: No
+
+npm install loopback-ds-timestamp-mixin@3.4.1 --save
+
+- You will now set access control for both dishes and Comments
+lb acl
+
+- For the dishes model
+Model: dishes
+Scope: All methods and properties
+access type: Write
+role: other
+role name: admin
+Permission: Explicitly grant access
+
+- Do the same for the promotions and leaders models.
+
+- For the comments model
+Model: comments
+Scope: All methods and properties
+access type: All
+role: All users
+Permission: Explicitly deny access
+
+- Now to allow customers to read comments
+Model: comments
+Scope: All methods and properties
+access type: Read
+role: Any authenticated user
+Permission: Explicitly grant access
+
+- To allow a customer that posted a comment to edit or delete the comment
+Model: comments
+Scope: All methods and properties
+access type: Write
+role: The user owning the object
+Permission: Explicitly grant access
+
+- For the Favorites model
+Model: favorites
+Scope: All methods and properties
+access type: All
+role: All users
+Permission: Explicitly deny access
+
+- To allow customers to read their own favorites
+Model: favorites
+Scope: All methods and properties
+access type: Read
+role: The user owning the object
+Permission: Explicitly grant access
+
+- To allow customers to post favorites
+Model: favorites
+Scope: A single method
+method name: create
+role: Any authenticated user
+Permission: Explicitly grant access
+
+- To allow a customer that posted a favorite to edit or delete the favorite
+Model: favorites
+Scope: All methods and properties
+access type: Write
+role: The user owning the object
+Permission: Explicitly grant access
+
+- In particular if you get comments with the following filter: {"include":["dishes","customer"]}, the system will include the dish information and customer information into the comments
+-----------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-Angular6-Loopback.git
+
+and go to conFusion-Angular6-Loopback folder
+
+npm install
+
+npm install --save @mean-expert/loopback-sdk-builder@2.3.1
+
+- Next, you will build the Loopback SDK and deploy it to your Angular application that you cloned in the previous steps. To do this
+./node_modules/.bin/lb-sdk server/server.js </path/to/client>/src/app/shared/sdk -d ng2web
+
+- Open the middleware.json file in the server folder
+
+"files": {
+  "loopback#static": {
+    "params": "$!../client"
+  }
+}
+------------------------------------------------------
+git clone https://github.com/jmuppala/conFusion-React-Loopback.git
+
+and go to conFusion-React-Loopback folder
+
+yarn install
+
+- Open the middleware.json file in the server folder
+
+"files": {
+  "loopback#static": {
+    "params": "$!../client"
+  }
+}
